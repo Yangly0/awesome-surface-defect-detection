@@ -1,6 +1,6 @@
 ---
-title   : title
-aliases : alias
+title   :  PsaDiM - a Patch Distribution Modeling Framework for Anomaly Detection and Localization
+aliases : PsaDiM
 author  : yangliuly1(522927317@qq.com)
 date    : 2021-12-14 14:54:04
 tags    : [papper, 异常检测, 缺陷检测]
