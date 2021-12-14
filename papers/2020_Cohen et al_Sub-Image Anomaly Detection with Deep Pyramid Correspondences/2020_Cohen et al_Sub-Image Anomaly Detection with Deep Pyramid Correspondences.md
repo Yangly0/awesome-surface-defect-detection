@@ -1,28 +1,33 @@
 ---
-@Author: liuyangly1
-@Date  : 2021-07-26 08:54:31
-@Blog  : https://blog.csdn.net/liuyang_1106
-@Github: https://github.com/liuyangly1
-@Email : 522927317@qq.com
+title   : Sub-Image Anomaly Detection with Deep Pyramid
+aliases : SPADE
+author  : yangliuly1(522927317@qq.com)
+date    : 2021-07-26 08:54:31
+tags    : [papper, 异常检测, 缺陷检测]
+Github  : https://github.com/yangliuly1/awesome-surface-defect-detection
 ---
-
-[toc]
 
 # Sub-Image Anomaly Detection with Deep Pyramid Correspondences
 
-Link: [Sub-Image Anomaly Detection with Deep Pyramid Correspondences](http://arxiv.org/abs/2005.02357) 
-Code: [byungjae89 / SPADE-pytorch](https://github.com/byungjae89/SPADE-pytorch) 
-Information: Niv Cohen and Yedid Hoshen, The Hebrew University of Jerusalem, Israel, 2021.May
+## 文献信息
 
----
+| 信息           | 内容                                                         |
+| -------------- | ------------------------------------------------------------ |
+| 发布日期       | May. 2021                                                    |
+| 作者           | Niv Cohen and Yedid Hoshen,                                  |
+| 机构           | The Hebrew University of Jerusalem, Israel                   |
+| 期刊与影响因子 | xxxx and x.x                                                 |
+| 引用           | xxx                                                          |
+| 链接           | [Sub-Image Anomaly Detection with Deep Pyramid Correspondences](http://arxiv.org/abs/2005.02357) |
+| 代码           | [byungjae89 / SPADE-pytorch](https://github.com/byungjae89/SPADE-pytorch) |
 
->个人理解
->
->- 问题：缺陷定位问题和样本未对齐问题。
->
->- 方法：（1）预训练网络提取特征（被证明优于正样本训练特征提取器）；（2）根据训练集的正样本特征库；（3）根据测试特征，找到K 个最近邻的所有像素位置构建了一个特征库；（4）计算测试提取的特征与特征库的平均距离，作为异常分数；（5）根据阈值，即0，判断该像素是否为异常（因为小于0表示不能在k个最邻近的正常图像中找到一个紧密对应的像素）。该方法的问题是KNN比较耗时，同时不一定能找到相似的像素位置。
->
->  
+## 个人理解
+
+>- 问题：缺陷定位问题和样本未对齐问题；
+>- 方法：（1）预训练网络提取特征（被证明优于正样本训练特征提取器）；（2）根据训练集的正样本特征库；（3）根据测试特征，找到K 个最近邻的所有像素位置构建了一个特征库；（4）计算测试提取的特征与特征库的平均距离，作为异常分数；（5）根据阈值，即0，判断该像素是否为异常（因为小于0表示不能在k个最邻近的正常图像中找到一个紧密对应的像素）。该方法的问题是KNN比较耗时，同时不一定能找到相似的像素位置；
+>- 结论： MVTec数据集上达到SOTA；
+>- 理解：特征库中每个样本都有一定的旋转位置信息，最邻近就是先去匹配一个角度，让样本先对齐，再用差分思想比较是否存在异常。
+>- 优化：推荐PaDiM算法。
 
 ---
 
@@ -30,7 +35,7 @@ Information: Niv Cohen and Yedid Hoshen, The Hebrew University of Jerusalem, Isr
 
 基于深度预训练特征的最近邻 (kNN) 方法在应用于整个图像时表现出非常强大的异常检测性能。 kNN 方法的一个限制是缺乏描述异常在图像内的位置的分割图。 在这项工作中，作者提出了一种基于异常图像和恒定数量的相似正常图像之间对齐的新型异常分割方法。 作者的方法，即语义金字塔异常检测 (SPADE)， 使用基于多分辨率特征金字塔的对应关系。 SPADE 被证明可以在无监督异常检测和定位方面实现最先进的性能，同时几乎不需要训练时间。
 
-**Keywords:** anomaly detection, nearest-neighbors, feature pyramid
+**关键词：**异常检测、最近邻、特征金字塔
 
 ## 1. Introduction
 
@@ -100,7 +105,7 @@ $$
 
 在获得每个图像的像素级异常分数后，作者使用高斯滤波器 ($\sigma= 4$​) 平滑结果。
 
-![image-20210817100638850](2020_Cohen_Hoshen_SPANE.assets/image-20210817100638850.png)
+![image-20210817100638850](2020_Cohen et al_Sub-Image Anomaly Detection with Deep Pyramid Correspondences.assets/image-20210817100638850.png)
 
 ## 4. Experiments
 
@@ -112,7 +117,7 @@ $$
 
 作者的方法在 MVTec 数据集上的操作示例可以在图 2 中观察到，异常物体（榛子）有划痕，检索到的最近邻法线图像，包含一个完整的螺母，没有划痕。 通过搜索两幅图像之间的对应关系，作者的方法能够找到正常图像区域的对应关系，但不能找到异常区域的对应关系。 这导致对图像异常区域的准确检测。 异常图像像素显示在最右侧的图像上。
 
-![image-20210817100847521](2020_Cohen_Hoshen_SPANE.assets/image-20210817100847521.png)
+![image-20210817100847521](2020_Cohen et al_Sub-Image Anomaly Detection with Deep Pyramid Correspondences.assets/image-20210817100847521.png)
 
 作者将他们的方法与过去几个月引入的几种方法以及长期存在的基线（如 OCSVM 和最邻近）进行了比较。 对于每个设置，作者都比较了方法被公开的合适指标。
 
@@ -120,17 +125,17 @@ $$
 
 作者继续在像素级异常检测任务上评估他们的方法。这里的目标是分割包含异常的特定像素。作者使用两个既定指标评估他们的的方法。第一个是逐像素 ROCAUC，该度量是通过按每个像素到其 K 个最近对应点的距离对每个像素进行评分来计算的。通过扫描阈值范围，我们可以计算像素级 ROCAUC 曲线。异常类别被指定为阳性。之前的几项工作指出，ROCAUC 偏向于大型异常。为了减少这种偏差，Bergmann et al.[6] 提出了 PRO（每区域重叠）曲线度量。他们首先将异常掩码分成它们的连接组件，因此将它们划分为单独的异常区域。通过改变检测阈值，他们扫描误报率 (FPR)，对于每个 FPR，他们计算 PRO，即每个区域的像素被检测为异常的比例。此 FPR 的 PRO 分数是所有区域的平均覆盖率。 PRO 曲线度量计算 FPR 速率从 0 到0:3。PRO 分数是该积分的归一化值。
 
-![image-20210817100729173](2020_Cohen_Hoshen_SPANE.assets/image-20210817100729173.png)
+![image-20210817100729173](2020_Cohen et al_Sub-Image Anomaly Detection with Deep Pyramid Correspondences.assets/image-20210817100729173.png)
 
 在表2中，作者将他们的逐像素 ROCAUC 度量方法与 Bergmann  et al.[5] 报告的最新结果进行比较以及 Venkataramanan et al. [31]的新结果。 大多数方法使用不同种类的自编码器，包括性能最佳的 CAVGA-Ru。 作者的方法明显优于所有方法。 这证明了作者基于金字塔的通信方法的优势。
 
-![image-20210817100737349](2020_Cohen_Hoshen_SPANE.assets/image-20210817100737349.png)
+![image-20210817100737349](2020_Cohen et al_Sub-Image Anomaly Detection with Deep Pyramid Correspondences.assets/image-20210817100737349.png)
 
 在表3中，作者在PRO方面比较他们的方法。 如上所述，这是另一种每像素精度度量，它为覆盖很少像素的异常赋予更大的权重。 他们的方法与 Bregmann et al. [6]的基于预训练特征的方法的自动编码器进行了比较以及他们论文中提出的基线。 作者的方法比所有以前的方法取得了明显更好的结果。 作者注意到 Bregmann et al.还提出了一种具有更好结果的集成方法。 虽然作者的方法不使用集成（这也可能会改进我们的方法），但作者的性能也优于集成方法。 作者在图 2 中展示了他们方法的更多定性结果。 图 1 表明他们的方法能够恢复异常区域的准确掩码。
 
-![image-20210817100749774](2020_Cohen_Hoshen_SPANE.assets/image-20210817100749774.png)
+![image-20210817100749774](2020_Cohen et al_Sub-Image Anomaly Detection with Deep Pyramid Correspondences.assets/image-20210817100749774.png)
 
-![image-20210817101021823](2020_Cohen_Hoshen_SPANE.assets/image-20210817101021823.png)
+![image-20210817101021823](2020_Cohen et al_Sub-Image Anomaly Detection with Deep Pyramid Correspondences.assets/image-20210817101021823.png)
 
 ### 4.2 Shanghai Tech Campus Dataset
 
@@ -138,17 +143,17 @@ $$
 
 作者首先评估了针对其他最先进方法检测图像级异常的第一阶段。 作者在表4中显示，表明我们的第一阶段具有与最佳性能方法相当的性能 [19]。 更有趣的是，作者在表5中进行了比较像素级 ROCAUC 性能与最佳报告方法 CAVGA-Ru [31]。 作者的方法显着优于最佳报告方法。 请注意，作者与未使用异常监督的最佳方法进行了比较，因为作者不使用它并且异常监督在实践中通常不可用。
 
-![image-20210817100801610](2020_Cohen_Hoshen_SPANE.assets/image-20210817100801610.png)
+![image-20210817100801610](2020_Cohen et al_Sub-Image Anomaly Detection with Deep Pyramid Correspondences.assets/image-20210817100801610.png)
 
-![image-20210817100911383](2020_Cohen_Hoshen_SPANE.assets/image-20210817100911383.png)
+![image-20210817100911383](2020_Cohen et al_Sub-Image Anomaly Detection with Deep Pyramid Correspondences.assets/image-20210817100911383.png)
 
 ### 4.3 Ablation Study
 
 作者对作者的方法进行了消融研究，以了解其不同部分的相对性能。 在表6中，作者使用不同级别的特征金字塔进行比较。作者经历过，使用太高的分辨率（56x56）的激活会显着损害性能（由于上下文有限），而使用更高的级别会导致性能下降（由于降低分辨率）。 使用金字塔中所有特征的组合会产生最佳性能。 在表 7 中，作者使用第一阶段执行的前 K 个相邻正常图像与第一阶段进行比较。 从数据集中随机选择它们。 作者观察到选择 kNN 图像可以提高性能。 这并不会平等地影响所有类。 例如，作者报告“网格”类的数字，该类在图像之间有很大差异。 对于这个类别，使用 kNN 图像比随机选择 K 个图像产生更好的性能。
 
-![image-20210817101057904](2020_Cohen_Hoshen_SPANE.assets/image-20210817101057904.png)
+![image-20210817101057904](2020_Cohen et al_Sub-Image Anomaly Detection with Deep Pyramid Correspondences.assets/image-20210817101057904.png)
 
-![image-20210817101112839](2020_Cohen_Hoshen_SPANE.assets/image-20210817101112839.png)
+![image-20210817101112839](2020_Cohen et al_Sub-Image Anomaly Detection with Deep Pyramid Correspondences.assets/image-20210817101112839.png)
 
 
 
